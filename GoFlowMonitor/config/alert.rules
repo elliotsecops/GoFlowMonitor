@@ -1,0 +1,11 @@
+groups:
+- name: web_app_alerts
+  rules:
+  - alert: HighResponseTime
+    expr: http_response_time_seconds > 1
+    for: 1m
+    labels:
+      severity: high
+    annotations:
+      summary: "High response time for web application"
+      description: "Response time is above 1 second for more than 1 minute"

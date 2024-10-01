@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/alert.rules:/etc/prometheus/alert.rules
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
+  metrics_exporter:
+    build: .
+    container_name: metrics_exporter
+    ports:
+      - "8080:8080"
+    environment:
+      - MONITOR_URL=http://example.com
+      - MONITOR_INTERVAL=10s
